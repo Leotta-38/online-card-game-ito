@@ -1,0 +1,13 @@
+.top-page {
+  margin-top: 15vh;
+}
+
+.top-page h1 {
+  font-family: 'Love Ya Like A Sister', cursive;
+  font-size: 24vh;
+}
+
+.top-page > p {
+  margin-bottom: 5vh;
+  font-size: 18px;
+}
