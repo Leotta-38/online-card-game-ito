@@ -29,6 +29,12 @@ wss.on('connection', ws => {
 
     wsServices.joinRoom(clientsList, dataInJs, uuid)
     wsServices.showRandomTopic(clientsList, dataInJs)
+    wsServices.giveACard(clientsList, dataInJs)
+    wsServices.submitResponse(clientsList, dataInJs, uuid)
+    wsServices.submitOrder(clientsList, dataInJs)
+    wsServices.resetOrder(clientsList, dataInJs)
+    wsServices.checkOrder(clientsList, dataInJs)
+    wsServices.continueGame(clientsList, dataInJs)
   })
 
   ws.on('close', () => {

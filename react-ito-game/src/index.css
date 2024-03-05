@@ -1,12 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=Poiret+One&display=swap');
 
 * {
-  margin: 0 auto;
-  padding: 0;
   box-sizing: border-box;
 }
 
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+}
+
 body {
+  margin: 0;
   width: 100vw;
   height: 100vh;
   text-align: center;

@@ -1,0 +1,8 @@
+
+.given-card .wrapper {
+  display: flex;
+  justify-content: center;
+  height: 17vh;
+  width: 29vh;
+  padding: 5px;
+}

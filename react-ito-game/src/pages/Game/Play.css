@@ -1,0 +1,11 @@
+.play {
+  margin-top: 10px;
+}
+
+.play .wrapper {
+  margin: 5px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}

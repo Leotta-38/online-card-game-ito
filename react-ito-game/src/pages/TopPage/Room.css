@@ -1,0 +1,24 @@
+
+.room .wrapper {
+  width: 60%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  background-color: #f8fafb;
+  color: #1A2027;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.room .username {
+  height: 50px;
+  border: 1px solid darkgray;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}

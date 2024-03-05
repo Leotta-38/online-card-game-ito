@@ -1,17 +1,28 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import { useState } from 'react'
-import TopPage from './pages/TopPage'
-import Game from './pages/Game'
+import TopPage from './pages/TopPage/TopPage'
+import StartForm from './pages/TopPage/StartForm'
+import Room from './pages/TopPage/Room'
+import Game from './pages/Game/Game'
+import Topic from './pages/Game/Topic'
+import Play from './pages/Game/Play'
+import Result from './pages/Game/Result'
 
 function App() {
   const [connection, setConnection] = useState(null)
-  const [players, setPlayers] = useState(null)
+  const [username, setUsername] = useState('')
+  const [players, setPlayers] = useState([])
   const [isGameMaster, setIsGameMaster] = useState(false)
-  const [topic, setTopic] = useState(null)
+  const [topic, setTopic] = useState({})
+  const [isChecked, setIsChecked] = useState(false)
 
   function callSetConnection(data) {
     setConnection(data)
+  }
+
+  function callSetUsername(data) {
+    setUsername(data)
   }
 
   function callSetPlayers(data) {
@@ -26,21 +37,48 @@ function App() {
     setTopic(data)
   }
 
+  function callSetIsChecked() {
+    setIsChecked(true)
+  }
+
   return (
     <section className='App'>
 
       <Routes>
-        <Route path='/' element={<TopPage 
-          connection={connection} 
-          callSetConnection={callSetConnection} 
-          players={players} 
-          callSetPlayers={callSetPlayers}
-          isGameMaster={isGameMaster} 
-          callSetIsGameMaster={callSetIsGameMaster}
-          topic={topic}
-          callSetTopic={callSetTopic}
-        />} />
-        <Route path='/game' element={<Game/>}/>
+        <Route path="/" element={<TopPage />}>
+          <Route path="" element={<StartForm
+            callSetConnection={callSetConnection} 
+            callSetUsername={callSetUsername}
+            callSetPlayers={callSetPlayers}
+            callSetIsGameMaster={callSetIsGameMaster}
+            callSetTopic={callSetTopic}
+            callSetIsChecked={callSetIsChecked}
+          />}/>
+          <Route path="room" element={<Room
+            connection={connection} 
+            players={players} 
+            isGameMaster={isGameMaster} 
+          />}/>
+        </Route>
+        <Route path="/game" element={<Game topic={topic}/>}>
+          <Route path="" element={<Topic 
+            connection={connection} 
+            isGameMaster={isGameMaster} 
+          />}/>
+          <Route path="play" element={<Play 
+            connection={connection} 
+            username={username}
+            players={players}
+            isGameMaster={isGameMaster}
+            isChecked={isChecked}
+          />}>
+            <Route path="result" element={<Result 
+              connection={connection} 
+              players={players}
+              isGameMaster={isGameMaster}
+            />}/>
+          </Route>
+        </Route>
       </Routes>
 
       <footer>

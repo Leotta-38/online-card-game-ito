@@ -1,0 +1,14 @@
+.card-list {
+  display: flex;
+  justify-content: space-around;
+  gap: 5px;
+  width: 80%;
+  margin: 10px auto;
+}
+
+.card-list > div {
+  border: 1px solid red;
+  padding: 5px;
+  height: 17vh;
+  width: 29vh;
+}

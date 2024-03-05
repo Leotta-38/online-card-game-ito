@@ -1,27 +1,24 @@
 import './Room.css'
 import Button from '@mui/material/Button'
-import { useNavigate } from 'react-router-dom'
-import { msgTypeList, sendWs } from '../utils/ws_service'
+import { msgTypeList, sendWs } from '../../utils/ws_service'
 
 
 function Room({ connection, players, isGameMaster }) {
-  const navigate = useNavigate()
 
   function handleClick() {
     const msg = {
-      type: msgTypeList.REQ_GAME_START
+      type: msgTypeList.REQ_GET_TOPIC
     }
     sendWs(connection, msg)
-    navigate("/game")
   }
 
   return (
     <section className="room">
-      <div className="grid-wrapper">
+      <div className="wrapper">
         {players.map((player, idx) => 
-          <div key={idx}>
+          <div key={idx} className='username'>
             <p>{player.username}</p>
-            {player.id === 1 && <p>game master</p>}
+            {player.id === 1 && <p><small>game master</small></p>}
           </div>
         )}
       </div>

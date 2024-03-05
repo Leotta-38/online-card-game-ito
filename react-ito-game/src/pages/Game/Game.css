@@ -1,0 +1,22 @@
+
+.game h1 {
+  margin-top: 4vh;
+  font-family: 'Love Ya Like A Sister', cursive;
+  font-size: 8vh;
+}
+
+.game > div {
+  display: inline-block;
+  font-family: 'Love Ya Like A Sister', cursive;
+  background-color: rgb(206, 91, 241);
+  border: 3px solid white;
+  border-radius: 10px;
+  padding: 10px 25px;
+  margin-top: 5px;
+}
+
+.game > div > p {
+  display: flex;
+  gap: 30px;
+  justify-content: space-evenly;
+}

@@ -4,14 +4,29 @@ const Topic = require('../models/topic')
 const msgTypeList = {
   REQ_JOIN_ROOM: 0,
   RES_JOIN_ROOM: 1,
-  REQ_GAME_START: 2,
-  RES_GAME_START: 3
+  REQ_GET_TOPIC: 2,
+  RES_GET_TOPIC: 3,
+  REQ_GET_A_CARD: 4,
+  RES_GET_A_CARD: 5,
+  REQ_SUBMIT_RESPONSE: 6,
+  RES_SUBMIT_RESPONSE: 7,
+  REQ_SUBMIT_ORDER: 8,
+  RES_SUBMIT_ORDER: 9,
+  REQ_RESET_ORDER: 10,
+  RES_RESET_ORDER: 11,
+  REQ_CHECK_ORDER: 12,
+  RES_CHECK_ORDER: 13,
+  REQ_CONTINUE_GAME: 14,
+  RES_CONTINUE_GAME: 15,
+  REQ_FINISH_GAME: 16,
+  RES_FINISH_GAME: 17
 }
+
 
 async function joinRoom(clientsList, data, uuid) {
   if(data.type === 0) {
     await User.create(data.username, uuid)
-    const users = await User.findAll()
+    const users = await User.findAllOrderById()
 
     for (let clientUuid in clientsList) {
       const resData = {
@@ -37,7 +52,7 @@ async function showRandomTopic(clientsList, data) {
 
     for (let clientUuid in clientsList) {
       const resData = {
-        type: msgTypeList.RES_GAME_START,
+        type: msgTypeList.RES_GET_TOPIC,
         topic: randomTopic
       }
 
@@ -49,20 +64,150 @@ async function showRandomTopic(clientsList, data) {
   }
 }
 
-module.exports = {
-  joinRoom,
-  showRandomTopic
+async function giveACard(clientsList, data) {
+  if (data.type === 4) {
+    const numberOgPlayers = Object.keys(clientsList).length
+    const randomNumbers = createRandomNumbers(numberOgPlayers)
+    for (let i = 0; i < numberOgPlayers; i++) {
+      await User.changeNumber(randomNumbers[i], i + 1)
+    }
+
+    const users = await User.findAllOrderById()
+
+    for (let clientUuid in clientsList) {
+      const resData = {
+        type: msgTypeList.RES_GET_A_CARD,
+        users: users
+      }
+
+      const ws = clientsList[clientUuid]
+      ws.send(JSON.stringify(resData))
+    }
+  } else {
+    return
+  }
 }
 
-// if (dataInJs.text === "start") {
-//   for (let clientUuid in clientsList) {
-//     const message = Math.floor(Math.random() * 100)
-//     sendToClient(clientUuid, message)
-//   }
-// }
+async function submitResponse(clientsList, data, uuid) {
+  if(data.type === 6) {
+    await User.updateResponse(data.response, uuid)
+    const users = await User.findAllOrderById()
 
-// wss.clients.forEach(client => {
-//   if (client.readyState === WebSocket.OPEN) {
-//     client.send(data, {binary: isBinary })
-//   }
-// })
+    for (let clientUuid in clientsList) {
+      const resData = {
+        type: msgTypeList.RES_SUBMIT_RESPONSE,
+        users: users
+      }
+
+      const ws = clientsList[clientUuid]
+      ws.send(JSON.stringify(resData))
+    }
+  } else {
+    return
+  }
+}
+
+async function submitOrder(clientsList, data) {
+  if(data.type === 8) {
+    await User.updateOrderid(data.count, data.id)
+    const users = await User.findAllOrderById()
+
+    for (let clientUuid in clientsList) {
+      const resData = {
+        type: msgTypeList.RES_SUBMIT_ORDER,
+        users: users
+      }
+
+      const ws = clientsList[clientUuid]
+      ws.send(JSON.stringify(resData))
+    }
+  } else {
+    return
+  }
+}
+
+async function resetOrder(clientsList, data) {
+  if(data.type === 10) {
+    await User.destroyOrderid()
+    const users = await User.findAllOrderById()
+
+    for (let clientUuid in clientsList) {
+      const resData = {
+        type: msgTypeList.RES_RESET_ORDER,
+        users: users
+      }
+
+      const ws = clientsList[clientUuid]
+      ws.send(JSON.stringify(resData))
+    }
+  } else {
+    return
+  }
+}
+
+async function checkOrder(clientsList, data) {
+  if(data.type === 12) {
+
+    for (let clientUuid in clientsList) {
+      const resData = {
+        type: msgTypeList.RES_CHECK_ORDER
+      }
+
+      const ws = clientsList[clientUuid]
+      ws.send(JSON.stringify(resData))
+    }
+  } else {
+    return
+  }
+}
+
+async function continueGame(clientsList, data) {
+  if(data.type === 14) {
+    const numberOgPlayers = Object.keys(clientsList).length
+    const randomNumbers = createRandomNumbers(numberOgPlayers)
+    for (let i = 0; i < numberOgPlayers; i++) {
+      await User.changeNumber(randomNumbers[i], i + 1)
+    }
+
+    await User.destroyResponse()
+    await User.destroyOrderid()
+    const users = await User.findAllOrderById()
+
+    for (let clientUuid in clientsList) {
+      const resData = {
+        type: msgTypeList.RES_CONTINUE_GAME,
+        users: users
+      }
+
+      const ws = clientsList[clientUuid]
+      ws.send(JSON.stringify(resData))
+    }
+  } else {
+    return
+  }
+}
+
+function createRandomNumbers(numberOgPlayers) {
+  let randomNumbers = []
+  for(let i = 0; i < numberOgPlayers; i++) {
+    let randomNumber = Math.floor(Math.random() * 100) + 1
+    while (randomNumbers.includes(randomNumber)) {
+      randomNumber = Math.floor(Math.random() * 100) + 1
+    }
+    randomNumbers.push(randomNumber)
+  }
+  return randomNumbers
+}
+
+
+
+module.exports = {
+  joinRoom,
+  showRandomTopic,
+  giveACard,
+  submitResponse,
+  submitOrder,
+  resetOrder,
+  checkOrder,
+  continueGame
+}

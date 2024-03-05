@@ -2,22 +2,25 @@ import './StartForm.css'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { useState } from 'react'
-import { msgTypeList, connectWebSocket } from '../utils/ws_service'
+import { useNavigate } from 'react-router-dom'
+import { msgTypeList, connectWebSocket } from '../../utils/ws_service'
 
-function StartFrom({ callSetConnection, callSetPlayers, callSetIsGameMaster }) {
+function StartForm({ callSetConnection, callSetUsername, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked }) {
   const [formData, setFormData] = useState('')
+  const navigate = useNavigate()
 
   function handleChange(e) {
     setFormData(e.target.value)
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault()
     const msg = {
       type: msgTypeList.REQ_JOIN_ROOM,
       username: formData
     }
-    connectWebSocket(msg, callSetConnection, callSetPlayers, callSetIsGameMaster)
+    connectWebSocket(msg, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate)
+    callSetUsername(formData)
   }
 
   return (
@@ -25,7 +28,7 @@ function StartFrom({ callSetConnection, callSetPlayers, callSetIsGameMaster }) {
       <TextField 
         required 
         size="small" 
-        id="filled-basic" 
+        id="filled-basic"
         label="Username" 
         variant="filled" 
         color="secondary"
@@ -43,4 +46,4 @@ function StartFrom({ callSetConnection, callSetPlayers, callSetIsGameMaster }) {
   )
 }
 
-export default StartFrom
+export default StartForm

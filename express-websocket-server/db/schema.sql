@@ -2,10 +2,11 @@ CREATE DATABASE game_ito;
 
 CREATE TABLE users(
   id SERIAL PRIMARY KEY,
-  username TEXT NOT NULL,
+  username TEXT UNIQUE NOT NULL,
   uuid TEXT NOT NULL,
-  number INTEGER,
-  response TEXT
+  number INTEGER UNIQUE,
+  response TEXT,
+  orderid INTEGER UNIQUE
 );
 
 CREATE TABLE topics(

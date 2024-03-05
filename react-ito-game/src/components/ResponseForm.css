@@ -1,0 +1,4 @@
+.response-form > form {
+  display: flex;
+  gap: 5px;
+}
