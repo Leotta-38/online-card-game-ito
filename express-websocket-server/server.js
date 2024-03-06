@@ -8,6 +8,9 @@ const wsServices = require('./middlewares/ws_services')
 const app = express()
 const portForExpress = 8081
 const portForWebSocket = 8082
+const roomRouter = require('./routes/room_router')
+
+app.use(roomRouter)
 
 const wss = new WebSocket.Server({
   port: portForWebSocket,
@@ -35,6 +38,8 @@ wss.on('connection', ws => {
     wsServices.resetOrder(clientsList, dataInJs)
     wsServices.checkOrder(clientsList, dataInJs)
     wsServices.continueGame(clientsList, dataInJs)
+    wsServices.finishGame(clientsList, dataInJs)
+    wsServices.exitRoom(clientsList, dataInJs, uuid)
   })
 
   ws.on('close', () => {

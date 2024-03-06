@@ -12,7 +12,7 @@ function Card({ player, isChecked }) {
         : <p>?</p>
       }
       {player.response && 
-        <p>by {player.username}</p>
+        <p>{player.username}</p>
       }
     </section>
   )

@@ -1,16 +1,24 @@
 
-.room .wrapper {
+.room .wrapper1 {
   width: 60%;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 20px;
   border: 1px solid gray;
   border-radius: 10px;
   background-color: #f8fafb;
   color: #1A2027;
   margin-bottom: 20px;
-  padding: 20px;
+  padding: 5px 20px 20px 20px;
+}
+
+.room .wrapper1 > p {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.room .wrapper2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
 }
 
 .room .username {

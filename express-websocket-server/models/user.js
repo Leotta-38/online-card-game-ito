@@ -54,16 +54,16 @@ async function destroyOrderid() {
   return result.rows
 }
 
-async function changeNumber(number, id) {
+async function changeNumber(number, uuid) {
   const sql = `
     UPDATE users
     SET 
       number = $1
-    WHERE id = $2 
+    WHERE uuid = $2 
     RETURNING *;
   `
 
-  const result = await db.query(sql, [number, id])
+  const result = await db.query(sql, [number, uuid])
   return result.rows
 }
 
@@ -79,16 +79,35 @@ async function destroyResponse() {
   return result.rows
 }
 
+async function destroyUser(uuid) {
+  const sql = `
+    DELETE FROM users 
+    WHERE uuid = $1 
+    RETURNING *;
+  `
+  const result = await db.query(sql, [uuid])
+  return result.rows[0]
+}
 
-// function destroy(id) {
-//   const sql = `
-//     DELETE FROM dishes 
-//     WHERE id = $1 
-//     RETURNING *;
-//   `
-//   return db.query(sql, [id])
-//     .then(result => result.rows[0])
-// }
+async function recreateRoom() {
+  const sql1 = `
+    DROP TABLE users;
+  `
+  await db.query(sql1)
+
+  const sql2 = `
+    CREATE TABLE users(
+      id SERIAL PRIMARY KEY,
+      username TEXT UNIQUE NOT NULL,
+      uuid TEXT NOT NULL,
+      number INTEGER UNIQUE,
+      response TEXT,
+      orderid INTEGER UNIQUE
+    );
+  `
+  await db.query(sql2)
+}
+
 
 module.exports = {
   findAllOrderById,
@@ -97,6 +116,7 @@ module.exports = {
   updateOrderid,
   destroyOrderid,
   changeNumber,
-  destroyResponse
-  // destroy,
+  destroyResponse,
+  destroyUser,
+  recreateRoom
 }

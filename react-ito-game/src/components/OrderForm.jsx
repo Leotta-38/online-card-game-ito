@@ -25,6 +25,7 @@ function OrderForm({ players, connection }) {
     }
     sendWs(connection, msg)
     setCount(count + 1)
+    setUserId('')
   }
 
 

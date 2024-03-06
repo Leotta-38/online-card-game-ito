@@ -1,9 +1,11 @@
 const User = require('../models/user')
 const Topic = require('../models/topic')
+const Room = require('../models/room')
 
 const msgTypeList = {
   REQ_JOIN_ROOM: 0,
   RES_JOIN_ROOM: 1,
+  RES_JOIN_ROOM_ERRORA: "1a",
   REQ_GET_TOPIC: 2,
   RES_GET_TOPIC: 3,
   REQ_GET_A_CARD: 4,
@@ -19,9 +21,10 @@ const msgTypeList = {
   REQ_CONTINUE_GAME: 14,
   RES_CONTINUE_GAME: 15,
   REQ_FINISH_GAME: 16,
-  RES_FINISH_GAME: 17
+  RES_FINISH_GAME: 17,
+  REQ_EXIT_ROOM: 18,
+  RES_EXIT_ROOM: 19
 }
-
 
 async function joinRoom(clientsList, data, uuid) {
   if(data.type === 0) {
@@ -48,6 +51,7 @@ async function joinRoom(clientsList, data, uuid) {
 
 async function showRandomTopic(clientsList, data) {
   if (data.type === 2) {
+    await Room.updateStatusOn()
     const randomTopic = await Topic.findRandom()
 
     for (let clientUuid in clientsList) {
@@ -68,8 +72,10 @@ async function giveACard(clientsList, data) {
   if (data.type === 4) {
     const numberOgPlayers = Object.keys(clientsList).length
     const randomNumbers = createRandomNumbers(numberOgPlayers)
-    for (let i = 0; i < numberOgPlayers; i++) {
-      await User.changeNumber(randomNumbers[i], i + 1)
+    let i = 0
+    for (let clientUuid in clientsList) {
+      await User.changeNumber(randomNumbers[i], clientUuid)
+      i++
     }
 
     const users = await User.findAllOrderById()
@@ -165,22 +171,70 @@ async function continueGame(clientsList, data) {
   if(data.type === 14) {
     const numberOgPlayers = Object.keys(clientsList).length
     const randomNumbers = createRandomNumbers(numberOgPlayers)
-    for (let i = 0; i < numberOgPlayers; i++) {
-      await User.changeNumber(randomNumbers[i], i + 1)
+    let i = 0
+    for (let clientUuid in clientsList) {
+      await User.changeNumber(randomNumbers[i], clientUuid)
+      i++
     }
 
     await User.destroyResponse()
     await User.destroyOrderid()
     const users = await User.findAllOrderById()
+    const randomTopic = await Topic.findRandom()
 
     for (let clientUuid in clientsList) {
       const resData = {
         type: msgTypeList.RES_CONTINUE_GAME,
-        users: users
+        users: users,
+        topic: randomTopic
       }
 
       const ws = clientsList[clientUuid]
       ws.send(JSON.stringify(resData))
+    }
+  } else {
+    return
+  }
+}
+
+async function finishGame(clientsList, data) {  
+  if(data.type === 16) {
+    await Room.updateStatusOff()
+    await User.recreateRoom()
+
+    for (let clientUuid in clientsList) {
+      const resData = {
+        type: msgTypeList.RES_FINISH_GAME
+      }
+
+      const ws = clientsList[clientUuid]
+      ws.send(JSON.stringify(resData))
+    }
+  } else {
+    return
+  }
+}
+
+async function exitRoom(clientsList, data, uuid) {
+  if(data.type === 18) {
+
+    await User.destroyUser(uuid)
+    const users = await User.findAllOrderById()
+
+    if(users.length !== 0) {
+      for (let clientUuid in clientsList) {
+        const resData = {
+          type: msgTypeList.RES_EXIT_ROOM,
+          users: users,
+          isGameMaster: false
+        }
+  
+        const ws = clientsList[clientUuid]
+        if (clientUuid === resData.users[0].uuid) {
+          resData.isGameMaster = true
+        }
+        ws.send(JSON.stringify(resData))
+      }
     }
   } else {
     return
@@ -199,8 +253,6 @@ function createRandomNumbers(numberOgPlayers) {
   return randomNumbers
 }
 
-
-
 module.exports = {
   joinRoom,
   showRandomTopic,
@@ -209,5 +261,7 @@ module.exports = {
   submitOrder,
   resetOrder,
   checkOrder,
-  continueGame
+  continueGame,
+  finishGame,
+  exitRoom
 }

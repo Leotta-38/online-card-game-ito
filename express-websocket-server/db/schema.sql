@@ -16,9 +16,18 @@ CREATE TABLE topics(
   max TEXT NOT NULL
 );
 
+CREATE TABLE rooms(
+  id SERIAL PRIMARY KEY,
+  is_going boolean NOT NULL   
+);
+
 INSERT INTO topics (name, min, max) 
 VALUES ('The strong animal', 'weakest', 'strongest')
 RETURNING *;
 INSERT INTO topics (name, min, max) 
 VALUES ('The country you want to live in', 'least', 'most')
+RETURNING *;
+
+INSERT INTO rooms (is_going) 
+VALUES (false)
 RETURNING *;

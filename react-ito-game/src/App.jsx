@@ -29,16 +29,16 @@ function App() {
     setPlayers(data)
   }
 
-  function callSetIsGameMaster() {
-    setIsGameMaster(true)
+  function callSetIsGameMaster(boolean) {
+    setIsGameMaster(boolean)
   }
 
   function callSetTopic(data) {
     setTopic(data)
   }
 
-  function callSetIsChecked() {
-    setIsChecked(true)
+  function callSetIsChecked(boolean) {
+    setIsChecked(boolean)
   }
 
   return (
@@ -58,6 +58,7 @@ function App() {
             connection={connection} 
             players={players} 
             isGameMaster={isGameMaster} 
+            callSetIsGameMaster={callSetIsGameMaster}
           />}/>
         </Route>
         <Route path="/game" element={<Game topic={topic}/>}>

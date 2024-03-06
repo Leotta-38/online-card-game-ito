@@ -4,6 +4,7 @@ import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { msgTypeList, connectWebSocket } from '../../utils/ws_service'
+import checkWsConnect from '../../utils/api'
 
 function StartForm({ callSetConnection, callSetUsername, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked }) {
   const [formData, setFormData] = useState('')
@@ -12,15 +13,26 @@ function StartForm({ callSetConnection, callSetUsername, callSetPlayers, callSet
   function handleChange(e) {
     setFormData(e.target.value)
   }
-
-  function handleSubmit(e) {
+  
+  async function handleSubmit(e) {
     e.preventDefault()
-    const msg = {
-      type: msgTypeList.REQ_JOIN_ROOM,
-      username: formData
+
+    let result = null
+
+    try {
+      result = await checkWsConnect(formData)
+    } catch(err) {
+      alert(err.response.data.message)
     }
-    connectWebSocket(msg, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate)
-    callSetUsername(formData)
+
+    if (result) {
+      const msg = {
+        type: msgTypeList.REQ_JOIN_ROOM,
+        username: formData
+      }
+      connectWebSocket(msg, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate)
+      callSetUsername(formData)
+    }
   }
 
   return (

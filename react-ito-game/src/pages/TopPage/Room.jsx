@@ -1,37 +1,22 @@
 import './Room.css'
-import Button from '@mui/material/Button'
-import { msgTypeList, sendWs } from '../../utils/ws_service'
+import GameStart from '../../components/GameStart'
 
-
-function Room({ connection, players, isGameMaster }) {
-
-  function handleClick() {
-    const msg = {
-      type: msgTypeList.REQ_GET_TOPIC
-    }
-    sendWs(connection, msg)
-  }
+function Room({ connection, players, isGameMaster, callSetIsGameMaster }) {
 
   return (
     <section className="room">
-      <div className="wrapper">
-        {players.map((player, idx) => 
-          <div key={idx} className='username'>
-            <p>{player.username}</p>
-            {player.id === 1 && <p><small>game master</small></p>}
-          </div>
-        )}
+      <div className='wrapper1'>
+        <p>{players.length} / 6</p>
+        <div className="wrapper2">
+          {players.map((player, idx) => 
+            <div key={idx} className='username'>
+              <p>{player.username}</p>
+              {idx === 0 && <p><small>game master</small></p>}
+            </div>
+          )}
+        </div>
       </div>
-      {isGameMaster && 
-        <Button 
-          onClick={handleClick}
-          variant="contained" 
-          size="large" 
-          color="secondary"
-        >
-          Game start
-        </Button>
-      }
+      <GameStart connection={connection} isGameMaster={isGameMaster} callSetIsGameMaster={callSetIsGameMaster} />
     </section>
   )
 }

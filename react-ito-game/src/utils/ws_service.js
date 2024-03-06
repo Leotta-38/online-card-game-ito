@@ -16,12 +16,16 @@ export const msgTypeList = {
   REQ_CONTINUE_GAME: 14,
   RES_CONTINUE_GAME: 15,
   REQ_FINISH_GAME: 16,
-  RES_FINISH_GAME: 17
+  RES_FINISH_GAME: 17,
+  REQ_EXIT_ROOM: 18,
+  RES_EXIT_ROOM: 19
 }
+
+let sock
 
 export function connectWebSocket(msg, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate) {
   const endpoint = 'ws://localhost:8082/to/ws'
-  const sock = new WebSocket(endpoint)
+  sock = new WebSocket(endpoint)
 
   sock.onopen = () => {
     callSetConnection(sock)
@@ -35,7 +39,9 @@ export function connectWebSocket(msg, callSetConnection, callSetPlayers, callSet
     res5(dataInJs, callSetPlayers, navigate)
     res7n9n11(dataInJs, callSetPlayers)
     res13(dataInJs, callSetIsChecked, navigate)
-    res15(dataInJs, callSetPlayers)
+    res15(dataInJs, callSetPlayers, callSetTopic, callSetIsChecked, navigate)
+    res17(dataInJs, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate)
+    res19(dataInJs, callSetPlayers, callSetIsGameMaster)
   }
 }
 
@@ -43,11 +49,15 @@ export function sendWs(sock, data) {
   sock.send(JSON.stringify(data))
 }
 
+export function closeWs(sock) {
+  sock.close()
+}
+
 function res1(data, callSetPlayers, callSetIsGameMaster, navigate) {
   if (data.type === 1) {
     callSetPlayers(data.users)
     if (data.isGameMaster) {
-      callSetIsGameMaster()
+      callSetIsGameMaster(true)
     }
     navigate('/room')
   } else {
@@ -83,16 +93,44 @@ function res7n9n11(data, callSetPlayers) {
 
 function res13(data, callSetIsChecked, navigate) {
   if (data.type === 13) {
-    callSetIsChecked(data.users)
+    callSetIsChecked(true)
     navigate('/game/play/result')
   } else {
     return
   }
 }
 
-function res15(data, callSetPlayers) {
+function res15(data, callSetPlayers, callSetTopic, callSetIsChecked, navigate) {
   if (data.type === 15) {
     callSetPlayers(data.users)
+    callSetTopic(data.topic)
+    callSetIsChecked(false)
+    navigate('/game')
+  } else {
+    return
+  }
+}
+
+function res17(data, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate) {
+  if (data.type === 17) {
+    callSetConnection(null)
+    callSetPlayers([])
+    callSetIsGameMaster(false)
+    callSetTopic({})
+    callSetIsChecked(false)
+    navigate('/')
+    closeWs(sock)
+  } else {
+    return
+  }
+}
+
+function res19(data, callSetPlayers, callSetIsGameMaster) {
+  if (data.type === 19) {
+    callSetPlayers(data.users)
+    if (data.isGameMaster) {
+      callSetIsGameMaster(true)
+    }
   } else {
     return
   }
