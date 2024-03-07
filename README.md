@@ -1,7 +1,12 @@
 # Ito - Card Game
 
 Ito is a Japanese card game where all players work together.
+
+Ito has a double meaning in Japanese. One is 'thread' and the other is 'intention.' In this game, you guess the other players' intention and how much you understand each other is the key to winning.
+
 I love this card game, which is my main motivation to build an online web application of this to play with my friends in Japan!
+
+<img src="https://m.media-amazon.com/images/I/71lTZzCnvRL.jpg" width="30%">
 
 ## [Click here](https://ito-product.onrender.com/) to play Ito
 
