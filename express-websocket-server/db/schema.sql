@@ -64,10 +64,6 @@ RETURNING *;
 INSERT INTO topics (name, min, max) 
 VALUES ('The super power you want to have', 'least', 'most')
 RETURNING *;
-
-
-
-
 INSERT INTO topics (name, min, max) 
 VALUES ('Popular animal at the zoo', 'least', 'most')
 RETURNING *;
