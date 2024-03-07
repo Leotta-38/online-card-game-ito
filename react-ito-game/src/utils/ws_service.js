@@ -18,12 +18,14 @@ export const msgTypeList = {
   REQ_FINISH_GAME: 16,
   RES_FINISH_GAME: 17,
   REQ_EXIT_ROOM: 18,
-  RES_EXIT_ROOM: 19
+  RES_EXIT_ROOM: 19,
+  REQ_DEMO_MODE: 90,
+  RES_DEMO_MODE: 91
 }
 
 let sock
 
-export function connectWebSocket(msg, endpoint, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate) {
+export function connectWebSocket(msg, endpoint, callSetConnection, callSetPlayers, callSetTopic, callSetIsChecked, navigate) {
   sock = new WebSocket(endpoint)
 
   sock.onopen = () => {
@@ -33,14 +35,14 @@ export function connectWebSocket(msg, endpoint, callSetConnection, callSetPlayer
   
   sock.onmessage = e => {
     const dataInJs = JSON.parse(e.data)
-    res1(dataInJs, callSetPlayers, callSetIsGameMaster, navigate)
+    res1(dataInJs, callSetPlayers, navigate)
     res3(dataInJs, callSetTopic, navigate)
     res5(dataInJs, callSetPlayers, navigate)
     res7n9n11(dataInJs, callSetPlayers)
     res13(dataInJs, callSetIsChecked, navigate)
     res15(dataInJs, callSetPlayers, callSetTopic, callSetIsChecked, navigate)
-    res17(dataInJs, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate)
-    res19(dataInJs, callSetPlayers, callSetIsGameMaster)
+    res17(dataInJs, callSetConnection, callSetPlayers, callSetTopic, callSetIsChecked, navigate)
+    res19(dataInJs, callSetPlayers)
   }
 }
 
@@ -52,12 +54,9 @@ export function closeWs(sock) {
   sock.close()
 }
 
-function res1(data, callSetPlayers, callSetIsGameMaster, navigate) {
+function res1(data, callSetPlayers, navigate) {
   if (data.type === 1) {
     callSetPlayers(data.users)
-    if (data.isGameMaster) {
-      callSetIsGameMaster(true)
-    }
     navigate('/room')
   } else {
     return
@@ -65,7 +64,7 @@ function res1(data, callSetPlayers, callSetIsGameMaster, navigate) {
 }
 
 function res3(data, callSetTopic, navigate) {
-  if (data.type === 3) {
+  if (data.type === 3 || data.type === 91) {
     callSetTopic(data.topic)
     navigate('/game')
   } else {
@@ -110,11 +109,10 @@ function res15(data, callSetPlayers, callSetTopic, callSetIsChecked, navigate) {
   }
 }
 
-function res17(data, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate) {
+function res17(data, callSetConnection, callSetPlayers, callSetTopic, callSetIsChecked, navigate) {
   if (data.type === 17) {
     callSetConnection(null)
     callSetPlayers([])
-    callSetIsGameMaster(false)
     callSetTopic({})
     callSetIsChecked(false)
     navigate('/')
@@ -124,12 +122,9 @@ function res17(data, callSetConnection, callSetPlayers, callSetIsGameMaster, cal
   }
 }
 
-function res19(data, callSetPlayers, callSetIsGameMaster) {
+function res19(data, callSetPlayers) {
   if (data.type === 19) {
     callSetPlayers(data.users)
-    if (data.isGameMaster) {
-      callSetIsGameMaster(true)
-    }
   } else {
     return
   }

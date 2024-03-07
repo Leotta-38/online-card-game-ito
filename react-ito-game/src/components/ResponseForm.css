@@ -1,3 +1,8 @@
+
+.response-form p {
+  margin-bottom: 5px;
+}
+
 .response-form > form {
   display: flex;
   gap: 5px;

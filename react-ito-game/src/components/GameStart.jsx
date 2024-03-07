@@ -4,7 +4,7 @@ import { msgTypeList, sendWs, closeWs } from '../utils/ws_service'
 import { useNavigate } from 'react-router-dom'
 
 
-function GameStart({ connection, isGameMaster, callSetIsGameMaster }) {
+function GameStart({ connection }) {
   const navigate = useNavigate()
 
   function handleClick1() {
@@ -13,9 +13,6 @@ function GameStart({ connection, isGameMaster, callSetIsGameMaster }) {
     }
     sendWs(connection, msg)
     closeWs(connection)
-    if (isGameMaster) {
-      callSetIsGameMaster()
-    }
     navigate('/')
   }
 
@@ -35,16 +32,14 @@ function GameStart({ connection, isGameMaster, callSetIsGameMaster }) {
         >
         Exit room
       </Button>
-      {isGameMaster && 
-        <Button 
-        onClick={handleClick2}
-        variant="contained" 
-        size="large" 
-        color="secondary"
-        >
-          Start game
-        </Button>
-      }
+      <Button 
+      onClick={handleClick2}
+      variant="contained" 
+      size="large" 
+      color="secondary"
+      >
+        Start game
+      </Button>
     </section>
   )
 }

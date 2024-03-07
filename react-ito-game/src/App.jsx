@@ -13,9 +13,9 @@ function App() {
   const [connection, setConnection] = useState(null)
   const [username, setUsername] = useState('')
   const [players, setPlayers] = useState([])
-  const [isGameMaster, setIsGameMaster] = useState(false)
   const [topic, setTopic] = useState({})
   const [isChecked, setIsChecked] = useState(false)
+  const [isDemoMode, setIsDemoMode] = useState(false)
 
   function callSetConnection(data) {
     setConnection(data)
@@ -29,16 +29,16 @@ function App() {
     setPlayers(data)
   }
 
-  function callSetIsGameMaster(boolean) {
-    setIsGameMaster(boolean)
-  }
-
   function callSetTopic(data) {
     setTopic(data)
   }
 
   function callSetIsChecked(boolean) {
     setIsChecked(boolean)
+  }
+
+  function callSetIsDemoMode() {
+    setIsDemoMode(true)
   }
 
   return (
@@ -50,33 +50,29 @@ function App() {
             callSetConnection={callSetConnection} 
             callSetUsername={callSetUsername}
             callSetPlayers={callSetPlayers}
-            callSetIsGameMaster={callSetIsGameMaster}
             callSetTopic={callSetTopic}
             callSetIsChecked={callSetIsChecked}
           />}/>
           <Route path="room" element={<Room
             connection={connection} 
             players={players} 
-            isGameMaster={isGameMaster} 
-            callSetIsGameMaster={callSetIsGameMaster}
           />}/>
         </Route>
         <Route path="/game" element={<Game topic={topic}/>}>
           <Route path="" element={<Topic 
             connection={connection} 
-            isGameMaster={isGameMaster} 
+            callSetIsDemoMode={callSetIsDemoMode}
           />}/>
           <Route path="play" element={<Play 
             connection={connection} 
             username={username}
             players={players}
-            isGameMaster={isGameMaster}
             isChecked={isChecked}
+            isDemoMode={isDemoMode}
           />}>
             <Route path="result" element={<Result 
               connection={connection} 
               players={players}
-              isGameMaster={isGameMaster}
             />}/>
           </Route>
         </Route>

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { msgTypeList, connectWebSocket } from '../../utils/ws_service'
 import checkWsConnect from '../../utils/api'
 
-function StartForm({ callSetConnection, callSetUsername, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked }) {
+function StartForm({ callSetConnection, callSetUsername, callSetPlayers, callSetTopic, callSetIsChecked }) {
   const [formData, setFormData] = useState('')
   const navigate = useNavigate()
 
@@ -31,7 +31,7 @@ function StartForm({ callSetConnection, callSetUsername, callSetPlayers, callSet
         username: formData
       }
       const endpoint = result.endpoint
-      connectWebSocket(msg, endpoint, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate)
+      connectWebSocket(msg, endpoint, callSetConnection, callSetPlayers, callSetTopic, callSetIsChecked, navigate)
       callSetUsername(formData)
     }
   }
@@ -42,7 +42,7 @@ function StartForm({ callSetConnection, callSetUsername, callSetPlayers, callSet
         required 
         size="small" 
         id="filled-basic"
-        label="Username" 
+        label="Player name" 
         variant="filled" 
         color="secondary"
         onChange={handleChange}

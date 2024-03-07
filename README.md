@@ -7,9 +7,9 @@ I love this card game, which is my main motivation to build an online web applic
 
 ## Screenshot
 
-![screenshot](/screenshot/01.png)
+![screenshot](/screenshot/001.png)
 
-![screenshot](/screenshot/02.png)
+![screenshot](/screenshot/002.png)
 
 ## Planning
 
@@ -29,7 +29,7 @@ I love this card game, which is my main motivation to build an online web applic
 
 ## What was challenging
 
-- To understand the concept of WebSocket and implement it to my app.
+- To understand the concept of WebSocket and implement it to my app (when WebSocket connection is made and how to control it).
 
 - To build my app on Render.
 
@@ -37,11 +37,13 @@ I love this card game, which is my main motivation to build an online web applic
 
 ## Bugs to fix
 
-- When the WebSocket accidentally disconnect.
+- When the WebSocket accidentally disconnects.
 
 ## Future features
 
-- Add next round where players use multiple cards.
+- Create the next round where two cards are given to players.
+
+- Create multiple rooms.
 
 ## Resources
 

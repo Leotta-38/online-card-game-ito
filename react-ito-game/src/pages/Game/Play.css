@@ -9,3 +9,8 @@
   align-items: center;
   gap: 20px;
 }
+
+
+.play .description {
+  margin: 20px 0;
+}

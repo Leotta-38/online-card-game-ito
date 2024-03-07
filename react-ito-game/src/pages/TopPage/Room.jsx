@@ -1,7 +1,7 @@
 import './Room.css'
 import GameStart from '../../components/GameStart'
 
-function Room({ connection, players, isGameMaster, callSetIsGameMaster }) {
+function Room({ connection, players }) {
 
   return (
     <section className="room">
@@ -11,12 +11,11 @@ function Room({ connection, players, isGameMaster, callSetIsGameMaster }) {
           {players.map((player, idx) => 
             <div key={idx} className={`user-color${idx} username`}>
               <p>{player.username}</p>
-              {idx === 0 && <p><small>game master</small></p>}
             </div>
           )}
         </div>
       </div>
-      <GameStart connection={connection} isGameMaster={isGameMaster} callSetIsGameMaster={callSetIsGameMaster} />
+      <GameStart connection={connection} />
     </section>
   )
 }

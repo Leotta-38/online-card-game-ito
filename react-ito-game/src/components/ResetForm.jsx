@@ -1,28 +1,27 @@
-import './CheckForm.css'
+import './ResetForm.css'
 import Button from '@mui/material/Button'
 import { msgTypeList, sendWs } from '../utils/ws_service'
 
 
-function CheckForm({ connection }) {
+function ResetForm({ connection }) {
   function handleClick() {
     const msg = {
-      type: msgTypeList.REQ_CHECK_ORDER
+      type: msgTypeList.REQ_RESET_ORDER
     }
     sendWs(connection, msg)
   }
 
   return (
-    <section className="check-form">
+    <section className="reset-form">
       <Button 
         onClick={handleClick}
         variant="contained" 
         size="large" 
-        color="secondary"
       >
-        Check order
+        Reset order
       </Button>
     </section>
   )
 }
 
-export default CheckForm
+export default ResetForm

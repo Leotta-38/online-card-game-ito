@@ -5,11 +5,10 @@ import GivenNumber from '../../components/GivenNumber'
 import ResponseForm from '../../components/ResponseForm'
 import PreCardList from '../../components/PreCardList'
 import PostCardList from '../../components/PostCardList'
-import OrderForm from '../../components/OrderForm'
+import ResetForm from '../../components/ResetForm'
 import CheckForm from '../../components/CheckForm'
 
-
-function Card({ connection, username, players, isGameMaster, isChecked }) {
+function Play({ connection, username, players, isChecked, isDemoMode }) {
 
   const playerObj = players.find(player => player.username === username)
   const playerIdx = players.findIndex(player => player.username === username)
@@ -21,21 +20,28 @@ function Card({ connection, username, players, isGameMaster, isChecked }) {
         <div className='wrapper'>
           {!playerObj.response
             ? <GivenCard player={playerObj} playerIdx={playerIdx} />
-            : <GivenNumber player={playerObj} />
+            : <GivenNumber player={playerObj} isDemoMode={isDemoMode}/>
           }
-          <ResponseForm connection={connection} />
+          <ResponseForm connection={connection} player={playerObj} />
         </div>
       }
 
-      <PreCardList players={players} />
+      <PreCardList players={players} connection={connection} />
+      <div className='description'>
+        <p>Discuss with other players to arrange the cards in the correct order.</p>
+        <p>Click the cards to place them from the smallest to the largest number.</p>
+      </div>
       <PostCardList players={players} isChecked={isChecked} />
 
-      {isGameMaster && playerObj.response && isNotFinishedOrder && <OrderForm players={players} connection={connection} />}
-      {isGameMaster && playerObj.response && !isNotFinishedOrder && !isChecked && <CheckForm connection={connection} />}
+      <div className="wrapper">
+        {playerObj.response && !isChecked && <ResetForm connection={connection} />}
+        {!isNotFinishedOrder && !isChecked && <CheckForm connection={connection} />}
+      </div>
+
 
       <Outlet />
     </section>
   )
 }
 
-export default Card
+export default Play

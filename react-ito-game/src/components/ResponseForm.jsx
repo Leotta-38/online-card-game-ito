@@ -4,7 +4,7 @@ import { msgTypeList, sendWs } from '../utils/ws_service'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 
-function ResponseForm({ connection }) {
+function ResponseForm({ connection, player }) {
   const [formData, setFormData] = useState('')
 
   function handleChange(e) {
@@ -23,6 +23,7 @@ function ResponseForm({ connection }) {
 
   return (
     <section className="response-form">
+      <p>Think of an answer that represents your number</p>
       <form onSubmit={handleSubmit}>
         <TextField 
           required 
@@ -30,7 +31,7 @@ function ResponseForm({ connection }) {
           id="filled-basic"
           variant="filled" 
           color="secondary"
-          label="response" 
+          label="Your answer" 
           value={formData}
           onChange={handleChange}
         />
@@ -40,7 +41,10 @@ function ResponseForm({ connection }) {
           size="large" 
           color="secondary"
         >
-          Submit
+          {player.response 
+          ? 'Update'
+          : 'Share'
+          }
         </Button>
       </form>
     </section>
