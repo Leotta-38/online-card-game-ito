@@ -1,25 +1,20 @@
 require('dotenv').config()
 
-const express = require('express')
 const crypto = require("crypto")
-const WebSocket = require('ws')
+const express = require('express')
+const app = express()
+const expressWs = require('express-ws')(app)
+const port = process.env.PORT
+const roomRouter = require('./routes/room_router')
 const wsServices = require('./middlewares/ws_services')
 
-const app = express()
-const portForExpress = 8081
-const portForWebSocket = 8082
-const roomRouter = require('./routes/room_router')
+app.use(express.static('public'))
 
 app.use(roomRouter)
 
-const wss = new WebSocket.Server({
-  port: portForWebSocket,
-  path: "/to/ws"
-})
-
 const clientsList = {}
 
-wss.on('connection', ws => {
+app.ws('/', ws => {
   ws.on('error', console.error)
 
   const uuid = crypto.randomUUID()
@@ -47,7 +42,6 @@ wss.on('connection', ws => {
   })
 })
 
-
-app.listen(portForExpress, () => {
-  console.log(`listening on port ${portForExpress}`)
+app.listen(port, () => {
+  console.log(`listening on port ${port}`)
 })

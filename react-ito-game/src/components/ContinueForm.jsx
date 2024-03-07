@@ -26,7 +26,7 @@ function ContinueForm({ connection }) {
           variant="contained" 
           size="large" 
         >
-          Continue game
+          new game
         </Button>
         <Button 
           onClick={handleClick2}

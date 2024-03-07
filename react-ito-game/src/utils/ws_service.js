@@ -24,7 +24,7 @@ export const msgTypeList = {
 let sock
 
 export function connectWebSocket(msg, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate) {
-  const endpoint = 'ws://localhost:8082/to/ws'
+  const endpoint = `ws://localhost:8080`
   sock = new WebSocket(endpoint)
 
   sock.onopen = () => {
