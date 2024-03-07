@@ -12,17 +12,20 @@ import CheckForm from '../../components/CheckForm'
 function Card({ connection, username, players, isGameMaster, isChecked }) {
 
   const playerObj = players.find(player => player.username === username)
+  const playerIdx = players.findIndex(player => player.username === username)
   const isNotFinishedOrder = players.map(player => player.orderid).includes(null)
 
   return (
     <section className="play">
-      <div className='wrapper'>
-        {!playerObj.response
-          ? <GivenCard player={playerObj} />
-          : <GivenNumber player={playerObj} />
-        }
-        <ResponseForm connection={connection} />
-      </div>
+      {!isChecked && 
+        <div className='wrapper'>
+          {!playerObj.response
+            ? <GivenCard player={playerObj} playerIdx={playerIdx} />
+            : <GivenNumber player={playerObj} />
+          }
+          <ResponseForm connection={connection} />
+        </div>
+      }
 
       <PreCardList players={players} />
       <PostCardList players={players} isChecked={isChecked} />

@@ -1,18 +1,18 @@
 import './Card.css'
 
-function Card({ player, isChecked }) {
+function Card({ player, playerIdx, isChecked }) {
 
   return (
-    <section className="card">
+    <section className={`user-color${playerIdx} card`}>
       {player.response && 
-        <p>{player.response}</p>
+        <p className='card-response'>{player.response}</p>
       }
       {!player.response || isChecked
-        ? <p>{player.number}</p>
-        : <p>?</p>
+        ? <p className='card-number'>{player.number}</p>
+        : <p className='card-number'>?</p>
       }
       {player.response && 
-        <p>{player.username}</p>
+        <p className='card-username'>{player.username}</p>
       }
     </section>
   )

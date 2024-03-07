@@ -9,7 +9,7 @@ function Room({ connection, players, isGameMaster, callSetIsGameMaster }) {
         <p>{players.length} / 6</p>
         <div className="wrapper2">
           {players.map((player, idx) => 
-            <div key={idx} className='username'>
+            <div key={idx} className={`user-color${idx} username`}>
               <p>{player.username}</p>
               {idx === 0 && <p><small>game master</small></p>}
             </div>

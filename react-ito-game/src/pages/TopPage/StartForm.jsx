@@ -30,7 +30,8 @@ function StartForm({ callSetConnection, callSetUsername, callSetPlayers, callSet
         type: msgTypeList.REQ_JOIN_ROOM,
         username: formData
       }
-      connectWebSocket(msg, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate)
+      const endpoint = result.endpoint
+      connectWebSocket(msg, endpoint, callSetConnection, callSetPlayers, callSetIsGameMaster, callSetTopic, callSetIsChecked, navigate)
       callSetUsername(formData)
     }
   }

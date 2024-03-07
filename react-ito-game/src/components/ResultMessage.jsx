@@ -15,8 +15,8 @@ function ResultMessage({ players }) {
   return (
     <section className="result-message">
       {isOrderedCorrectly
-        ? <p>Congratulations!</p>
-        : <p>Not correct...</p>
+        ? <h2>Congratulations!</h2>
+        : <h2>Not correct...</h2>
       }
     </section>
   )

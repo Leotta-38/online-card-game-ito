@@ -1,17 +1,15 @@
-# Cafe Hoppers
+# Ito - Card Game
 
-```
-Ito is a card game enjoyed in Japan. All players work together to complete the game.
-I love this card game, so this is the motivation to build the online web application of this card game to play with my friends in Japan!
-```
+Ito is a Japanese card game where all players work together.
+I love this card game, which is my main motivation to build an online web application of this to play with my friends in Japan!
 
 ## [Click here](https://ito-product.onrender.com/) to play Ito
 
 ## Screenshot
 
-![screenshot](/screenshot/aaa.png)
+![screenshot](/screenshot/01.png)
 
-![screenshot](/screenshot/bbb.png)
+![screenshot](/screenshot/02.png)
 
 ## Planning
 
@@ -31,17 +29,19 @@ I love this card game, so this is the motivation to build the online web applica
 
 ## What was challenging
 
-- To understand the concept of WebSocket and implemnt it to my app.
+- To understand the concept of WebSocket and implement it to my app.
+
+- To build my app on Render.
 
 - To think about user-friendly interfaces.
 
 ## Bugs to fix
 
-- When the WebSocket accidentally disconnect 
+- When the WebSocket accidentally disconnect.
 
 ## Future features
 
-- Add next round where players use multiple cards
+- Add next round where players use multiple cards.
 
 ## Resources
 

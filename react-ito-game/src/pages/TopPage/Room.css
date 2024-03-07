@@ -1,8 +1,7 @@
 
 .room .wrapper1 {
-  width: 60%;
+  width: 50%;
   margin: 0 auto;
-  border: 1px solid gray;
   border-radius: 10px;
   background-color: #f8fafb;
   color: #1A2027;
@@ -13,6 +12,7 @@
 .room .wrapper1 > p {
   text-align: right;
   margin-bottom: 10px;
+  font-size: 2vh;
 }
 
 .room .wrapper2 {
@@ -22,11 +22,16 @@
 }
 
 .room .username {
-  height: 50px;
+  font-size: 2.5vh;
+  height: 8vh;
   border: 1px solid darkgray;
-  border-radius: 3px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.room .username small {
+  font-size: 1.8vh;
 }

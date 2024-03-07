@@ -4,10 +4,10 @@ import Card from './Card'
 function PreCardList({ players }) {
   return (
     <section className="card-list">
-      {players.map(player => 
+      {players.map((player, idx) => 
         <div key={player.id} >
           {player.response && !player.orderid &&
-            <Card player={player} />
+            <Card player={player} playerIdx={idx}/>
           }
         </div>
       )}

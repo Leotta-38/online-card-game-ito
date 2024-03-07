@@ -11,10 +11,10 @@ function PostCardList({ players, isChecked }) {
   
   return (
     <section className="card-list">
-      {players.map(player => 
+      {players.map((player, idx) => 
         <div key={player.id} >
           {player.response && player.orderid &&
-            <Card player={player} isChecked={isChecked} />
+            <Card player={player} playerIdx={idx} isChecked={isChecked} />
           }
         </div>
       )}

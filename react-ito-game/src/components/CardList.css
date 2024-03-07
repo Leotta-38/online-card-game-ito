@@ -4,11 +4,12 @@
   gap: 5px;
   width: 80%;
   margin: 10px auto;
+  /* background-color: #7fff7f; */
 }
 
 .card-list > div {
-  border: 1px solid red;
+  border: 1px dashed white;
   padding: 5px;
-  height: 17vh;
-  width: 29vh;
+  height: 16vh;
+  width: 27vh;
 }

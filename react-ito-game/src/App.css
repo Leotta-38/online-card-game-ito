@@ -14,3 +14,27 @@ footer {
 footer p {
   font-size: 18px;
 }
+
+.user-color0 {
+  background-color: #eff7ff;
+}
+
+.user-color1 {
+  background-color: #effff7;
+}
+
+.user-color2 {
+  background-color: #f7ffef;
+}
+
+.user-color3 {
+  background-color: #fff7ef;
+}
+
+.user-color4 {
+  background-color: #ffeff7;
+}
+
+.user-color5 {
+  background-color: #f7efff;
+}

@@ -42,7 +42,7 @@ function GameStart({ connection, isGameMaster, callSetIsGameMaster }) {
         size="large" 
         color="secondary"
         >
-          Game start
+          Start game
         </Button>
       }
     </section>
